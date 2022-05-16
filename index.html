@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>My test page</title>
+</head>
+
+<body>
+
+    <body onload="onLoad();">
+        Name: <input type="text" id="name"> Message to send: <input type="text" id="msg">
+        <input type="button" onclick="sendMsg();" value="send">
+    </body>
+</body>
+
+<script type="text/javascript">
+    var ws;
+
+    function onLoad() {
+        ws = new WebSocket("ws://localhost:8888/ws");
+
+        ws.onmessage = function(e) {
+            console.log(e.data);
+        }
+    }
+
+    function sendMsg() {
+        const msg = {
+            'message': document.getElementById("msg").value,
+            'name': document.getElementById("name").value,
+        }
+
+        ws.send(JSON.stringify(msg));
+    }
+</script>
+
+</html>
